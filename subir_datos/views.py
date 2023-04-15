@@ -4,8 +4,10 @@ from tablib import Dataset
 from .resources import DatoResource
 from .models import Dato
 from django.http import HttpResponse
+from django.views.generic import ListView, FormView
 
 # Create your views here.
+
 def subir_datos(request):
     if request.method == 'POST':
         dato_resource = DatoResource()
