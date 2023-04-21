@@ -25,8 +25,12 @@ def listar_direcciones(request):
         print(request.POST)
 
         if form.is_valid():
+            new_fecha_registro = datetime.datetime.now()
+            pedido.fecha_registro = new_fecha_registro
+
             form.save()
             print(request.POST)
+            print('La fecha de registro es',new_fecha_registro)
             return HttpResponseRedirect('/')
     else:
         form = PedidoForm
@@ -39,12 +43,19 @@ def tabla_pedidos(request):
 def editar_pedido(request,id):
     if request.method == 'POST':
         pedido = get_object_or_404(Dato,pk=id)
+        estado_old = pedido.estado
         edit_form = EditarForm(request.POST, instance=pedido)
         if edit_form.is_valid():
             edit_form.save()
+            estado_new = pedido.estado
+            if estado_old!=estado_new:
+                new_fecha_registro = datetime.datetime.now()
+                pedido.fecha_registro = new_fecha_registro
+                pedido.save()
             return HttpResponseRedirect('/')
     else:
-        edit_form = EditarForm
+        pedido = get_object_or_404(Dato,pk=id)
+        edit_form = EditarForm(instance=pedido)
     return render(request, "editar_pedidos.html", {'form':edit_form})
 
 
@@ -56,11 +67,11 @@ def export_excel(request):
     row_num = 0
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
-    columns = ['CITA', 'CÓDIGO POSTAL', 'DIRECCIÓN', 'NHC', 'MÓVIL', 'AGENDA', 'ESTADO', 'DNI', 'INCIDENCIAS']
+    columns = ['CITA', 'CÓDIGO POSTAL', 'DIRECCIÓN', 'NHC', 'MÓVIL', 'AGENDA', 'ESTADO', 'DNI', 'INCIDENCIAS', 'FECHA ENTREGA']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
     font_style = xlwt.XFStyle()
-    rows = Dato.objects.filter(dia_cita__date=datetime.date.today()).values_list('dia_cita', 'cp', 'direccion', 'nhc', 'movil', 'agenda', 'estado', 'DNI', 'incidencias')
+    rows = Dato.objects.filter(dia_cita__date=datetime.date.today()).values_list('dia_cita', 'cp', 'direccion', 'nhc', 'movil', 'agenda', 'estado', 'DNI', 'incidencias', 'fecha_registro')
     for row in rows:
         row_num += 1
         for col_num in range(len(row)):

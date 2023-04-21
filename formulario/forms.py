@@ -10,7 +10,9 @@ from django.forms import ModelChoiceField
 
 ESTADOS =(
     ("Blank", "---------"),
-    ("Entregado", "Entregado"),
+    ("Sin revisar", "Sin revisar"),
+    ("Entregado en domicilio", "Entregado en domicilio"),
+    ("Entregado en otra dirección", "Entregado en otra dirección"),
     ("No entregado: Direccion erronea", "No entregado: Direccion erronea"),
     ("No entregado: No hay nadie en casa", "No entregado: No hay nadie en casa"),
 
@@ -35,7 +37,7 @@ class EditarForm(ModelForm):
     estado = forms.ChoiceField(choices=ESTADOS, widget = forms.Select(attrs={'class':'form-control'}))
 
     class Meta:
-        model = Pedido
+        model = Dato
         fields = ('estado', 'DNI', 'incidencias')
 
         widgets = {

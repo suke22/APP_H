@@ -7,27 +7,80 @@
 {% bootstrap_messages %}
 <!DOCTYPE html>
 <html>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 <style>
-table, th, td {
-  border: 1px solid rgb(255, 255, 255);
-  border-collapse: collapse;
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: 'Times New Roman';
+    width: 97%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
-th, td {
-  padding: 20px;
-  text-align: left;
+
+.styled-table thead tr {
+    background-color: rgb(98, 114, 157);
+    color: #ffffff;
+    text-align: left;
 }
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid rgb(98, 114, 157);
+}
+
+.styled-table tbody tr.active-row {
+    
+    color:black;
+}
+
+.odd {
+   background: #0D1424;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: rgb(211, 223, 240); 
+  color: black; 
+  border: 2px solid  #909dc3;
+  border-radius: 10px;
+}
+
 </style>
 </head>
-<body>
+<body  style="background-color:rgb(240, 240, 240);">
 
 <font face="Times New Roman">
 <center><h1>PEDIDOS</h1></center>
 
-<table class = "table table-hover" style="width:100%" >
-    <thead class="table-light">
+<table class = "styled-table" >
+    <thead >
         <tr>
           <th scope="col">DIRECCIÓN</th>
+          <th scope="col">CP</th>
           <th scope="col">ESTADO</th>
           <th scope="col">HORA</th>
           <th scope="col"></th>
@@ -35,17 +88,18 @@ th, td {
       </thead>
     <tbody>
         {% for results in todos_pedidos %}
-        <tr>
+        <tr class="active-row">
         <td>{{ results.direccion }}</td>
+        <td>{{ results.cp }}</td>
         <td>{{ results.estado }}</td>
-        <td>{% now "Y-m-d" %}</td>
-        <td><a href="editar_pedidos/{{ results.id }}">Editar</a>
+        <td>{{ results.fecha_registro}}</td>
+        <td><div><a class="button button1" href="editar_pedidos/{{ results.id }}">Editar</a></div> 
         </tr>
     </tbody>
 {% endfor %}
 </table>
 <div class="col-md-4">
-    <a href="{% url 'export_excel' %}" class="btn btn-secondary">Descargar</a>
+    <a class="button button1" href="{% url 'export_excel' %}" class="btn btn-secondary">Descargar</a>
 </div>
 </font>
 </body>

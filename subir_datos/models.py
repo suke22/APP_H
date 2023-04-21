@@ -13,6 +13,7 @@ class Dato(models.Model):
     estado = models.CharField(('ESTADO'), max_length=100, blank = True, null = True)
     DNI = models.CharField(('DNI'), max_length=9, blank = True, null = True)
     incidencias = models.CharField(('INCIDENCIAS'), max_length=200,  blank = True, null = True)
+    fecha_registro = models.DateTimeField(blank=True, null=True)
 
 
 

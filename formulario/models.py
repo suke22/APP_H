@@ -22,7 +22,8 @@ class Pedido(models.Model):
     
     ESTADO = [
         ("Sin revisar","Sin revisar"),
-        ("Entregado","Entregado"),
+        ("Entregado en domicilio", "Entregado en domicilio"),
+        ("Entregado en otra dirección", "Entregado en otra dirección"),
         ("No entregado: Dirección erronea","No entregado: Dirección erronea"),
         ("No entregado: No hay nadie en casa","No entregado: No hay nadie en casa"),
         ]
